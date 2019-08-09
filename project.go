@@ -27,6 +27,7 @@ type Project struct {
 	Identifier  string   `json:"identifier"`
 	Description string   `json:"description"`
 	Parent      *Project `json:"parent"`
+	ParentID    int      `json:"parent_id"`
 	CreatedOn   string   `json:"created_on"`
 	UpdatedOn   string   `json:"updated_on"`
 }
