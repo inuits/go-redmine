@@ -25,7 +25,7 @@ type Transition struct {
 // Endpoint to get possible transitions for given role and tracker
 
 func (c *Client) Transition (role_id int, tracker_id int) (*Transition, error) {
-	res, err := c.Get(c.endpoint + "/workflow/transitions.xml?" + "role_id=" + strconv.Itoa(role_id) + "&" + "tracker_id=" + strconv.Itoa(tracker_id) + c.apikey)
+	res, err := c.Get(c.endpoint + "/workflow/transitions.json?" + "role_id=" + strconv.Itoa(role_id) + "&" + "tracker_id=" + strconv.Itoa(tracker_id) + c.apikey)
 
 
 
