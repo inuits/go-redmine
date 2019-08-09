@@ -20,15 +20,18 @@ type projectsResult struct {
 	Projects []Project `json:"projects"`
 }
 
+// Project represents a Redmine project
 type Project struct {
-	Id          int    `json:"id"`
-	Name        string `json:"name"`
-	Identifier  string `json:"identifier"`
-	Description string `json:"description"`
-	CreatedOn   string `json:"created_on"`
-	UpdatedOn   string `json:"updated_on"`
+	ID          int      `json:"id"`
+	Name        string   `json:"name"`
+	Identifier  string   `json:"identifier"`
+	Description string   `json:"description"`
+	Parent      *Project `json:"parent"`
+	CreatedOn   string   `json:"created_on"`
+	UpdatedOn   string   `json:"updated_on"`
 }
 
+// Project fetches a specific project by ID
 func (c *Client) Project(id int) (*Project, error) {
 	res, err := c.Get(c.endpoint + "/projects/" + strconv.Itoa(id) + ".json?key=" + c.apikey)
 	if err != nil {
@@ -53,6 +56,7 @@ func (c *Client) Project(id int) (*Project, error) {
 	return &r.Project, nil
 }
 
+// Projects fetchtes all projects
 func (c *Client) Projects() ([]Project, error) {
 	res, err := c.Get(c.endpoint + "/projects.json?key=" + c.apikey + c.getPaginationClause())
 	if err != nil {
@@ -77,6 +81,7 @@ func (c *Client) Projects() ([]Project, error) {
 	return r.Projects, nil
 }
 
+// CreateProject creates a new project
 func (c *Client) CreateProject(project Project) (*Project, error) {
 	var ir projectRequest
 	ir.Project = project
@@ -112,6 +117,7 @@ func (c *Client) CreateProject(project Project) (*Project, error) {
 	return &r.Project, nil
 }
 
+// UpdateProject updates an existing project
 func (c *Client) UpdateProject(project Project) error {
 	var ir projectRequest
 	ir.Project = project
@@ -119,7 +125,7 @@ func (c *Client) UpdateProject(project Project) error {
 	if err != nil {
 		return err
 	}
-	req, err := http.NewRequest("PUT", c.endpoint+"/projects/"+strconv.Itoa(project.Id)+".json?key="+c.apikey, strings.NewReader(string(s)))
+	req, err := http.NewRequest("PUT", c.endpoint+"/projects/"+strconv.Itoa(project.ID)+".json?key="+c.apikey, strings.NewReader(string(s)))
 	if err != nil {
 		return err
 	}
@@ -147,6 +153,7 @@ func (c *Client) UpdateProject(project Project) error {
 	return err
 }
 
+// DeleteProject deletes an existing project by id
 func (c *Client) DeleteProject(id int) error {
 	req, err := http.NewRequest("DELETE", c.endpoint+"/projects/"+strconv.Itoa(id)+".json?key="+c.apikey, strings.NewReader(""))
 	if err != nil {
