@@ -56,6 +56,31 @@ func (c *Client) Project(id int) (*Project, error) {
 	return &r.Project, nil
 }
 
+// ProjectByIdentifier fetches a specific project by identifier
+func (c *Client) ProjectByIdentifier(ident string) (*Project, error) {
+	res, err := c.Get(c.endpoint + "/projects/" + ident + ".json?key=" + c.apikey)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	decoder := json.NewDecoder(res.Body)
+	var r projectResult
+	if res.StatusCode != 200 {
+		var er errorsResult
+		err = decoder.Decode(&er)
+		if err == nil {
+			err = errors.New(strings.Join(er.Errors, "\n"))
+		}
+	} else {
+		err = decoder.Decode(&r)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return &r.Project, nil
+}
+
 // Projects fetchtes all projects
 func (c *Client) Projects() ([]Project, error) {
 	res, err := c.Get(c.endpoint + "/projects.json?key=" + c.apikey + c.getPaginationClause())
