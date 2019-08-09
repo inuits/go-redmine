@@ -28,7 +28,7 @@ type Project struct {
 	Description    string   `json:"description"`
 	Parent         *Project `json:"parent,omitempty"`
 	ParentID       int      `json:"parent_id,omitempty"`
-	IsPublic       bool     `json:"is_public,omitempty"`
+	IsPublic       bool     `json:"is_public"`
 	InheritMembers bool     `json:"inherit_members,omitempty"`
 	CreatedOn      string   `json:"created_on"`
 	UpdatedOn      string   `json:"updated_on"`
