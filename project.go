@@ -22,14 +22,16 @@ type projectsResult struct {
 
 // Project represents a Redmine project
 type Project struct {
-	ID          int      `json:"id"`
-	Name        string   `json:"name"`
-	Identifier  string   `json:"identifier"`
-	Description string   `json:"description"`
-	Parent      *Project `json:"parent,omitempty"`
-	ParentID    int      `json:"parent_id,omitempty"`
-	CreatedOn   string   `json:"created_on"`
-	UpdatedOn   string   `json:"updated_on"`
+	ID             int      `json:"id"`
+	Name           string   `json:"name"`
+	Identifier     string   `json:"identifier"`
+	Description    string   `json:"description"`
+	Parent         *Project `json:"parent,omitempty"`
+	ParentID       int      `json:"parent_id,omitempty"`
+	IsPublic       bool     `json:"is_public,omitempty"`
+	InheritMembers bool     `json:"inherit_members,omitempty"`
+	CreatedOn      string   `json:"created_on"`
+	UpdatedOn      string   `json:"updated_on"`
 }
 
 // Project fetches a specific project by ID
